@@ -16,7 +16,7 @@ public class Employee {
 
 	@Id
 	@GeneratedValue
-	private Integer employeeId;
+	private Long employeeId;
 	
 	private String employeeFirstName;
 	private String employeeLastName;
