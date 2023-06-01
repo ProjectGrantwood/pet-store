@@ -6,7 +6,6 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -21,7 +20,7 @@ import lombok.ToString;
 public class PetStore {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	private Long petStoreId;
 
 	private String petStoreName;
@@ -34,13 +33,7 @@ public class PetStore {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	// @formatter:off
-	@JoinTable(
-			name = "pet_store_customer", 
-			joinColumns = @JoinColumn(name = "pet_store_id"), 
-			inverseJoinColumns = @JoinColumn(name = "customer_id")
-			)
-	// @formatter:on
+	@JoinTable(name = "pet_store_customer", joinColumns = @JoinColumn(name = "pet_store_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Set<Customer> customers = new HashSet<>();
 
 	@EqualsAndHashCode.Exclude
