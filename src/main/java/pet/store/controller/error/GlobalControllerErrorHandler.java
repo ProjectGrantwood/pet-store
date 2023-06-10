@@ -30,19 +30,39 @@ public class GlobalControllerErrorHandler {
 		private String timestamp;
 		private String uri;
 	}
-
-		@ExceptionHandler(NoSuchElementException.class)
-		@ResponseStatus(code = HttpStatus.NOT_FOUND)
-		public ExceptionMessage handleNoSuchElementException(NoSuchElementException ex, WebRequest webRequest) {
-			return buildExceptionMessage(ex, HttpStatus.NOT_FOUND, webRequest, LogStatus.MESSAGE_ONLY);
-		}
-
-		@ExceptionHandler(DuplicateKeyException.class)
-		@ResponseStatus(code = HttpStatus.CONFLICT)
-		public ExceptionMessage handleDuplicateKeyException(DuplicateKeyException ex, WebRequest webRequest) {
-			return buildExceptionMessage(ex, HttpStatus.CONFLICT, webRequest, LogStatus.MESSAGE_ONLY);
-		}
 	
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(code = HttpStatus.I_AM_A_TEAPOT)
+	public ExceptionMessage handleExceptionGeneralCase(Exception ex, WebRequest webRequest) {
+		return buildExceptionMessage(ex, HttpStatus.I_AM_A_TEAPOT, webRequest, LogStatus.STACK_TRACE);
+	}
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ExceptionMessage handleIllegalArgumentException(Exception ex, WebRequest webRequest) {
+		return buildExceptionMessage(ex, HttpStatus.BAD_REQUEST, webRequest, LogStatus.MESSAGE_ONLY);
+	}
+
+	@ExceptionHandler(UnsupportedOperationException.class)
+	@ResponseStatus(code = HttpStatus.METHOD_NOT_ALLOWED)
+	public ExceptionMessage handleUnsupportedOperationException(UnsupportedOperationException ex,
+			WebRequest webRequest) {
+		return buildExceptionMessage(ex, HttpStatus.METHOD_NOT_ALLOWED, webRequest, LogStatus.MESSAGE_ONLY);
+	}
+
+	@ExceptionHandler(NoSuchElementException.class)
+	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+	public ExceptionMessage handleNoSuchElementException(NoSuchElementException ex, WebRequest webRequest) {
+		return buildExceptionMessage(ex, HttpStatus.NOT_FOUND, webRequest, LogStatus.MESSAGE_ONLY);
+	}
+
+	@ExceptionHandler(DuplicateKeyException.class)
+	@ResponseStatus(code = HttpStatus.CONFLICT)
+	public ExceptionMessage handleDuplicateKeyException(DuplicateKeyException ex, WebRequest webRequest) {
+		return buildExceptionMessage(ex, HttpStatus.CONFLICT, webRequest, LogStatus.MESSAGE_ONLY);
+	}
+	
+
 	private ExceptionMessage buildExceptionMessage(Exception ex, HttpStatus status, WebRequest webRequest,
 			LogStatus logStatus) {
 		String message = ex.toString();

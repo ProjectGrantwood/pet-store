@@ -1,8 +1,5 @@
 package pet.store.controller.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pet.store.entity.Employee;
@@ -18,7 +15,7 @@ public class EmployeeData {
 	private String employeeLastName;
 	private String employeePhone;
 	private String employeeJobTitle;
-	private PetStoreResponse petStoreResponse;
+	private EmployeePetStore employeePetStore;
 	
 	public EmployeeData(Employee employee) {
 		employeeId = employee.getEmployeeId();
@@ -26,11 +23,14 @@ public class EmployeeData {
 		employeeLastName = employee.getEmployeeLastName();
 		employeePhone = employee.getEmployeePhone();
 		employeeJobTitle = employee.getEmployeeJobTitle();
+		employeePetStore = new EmployeePetStore(employee.getPetStore());
 	}
 	
 	@Data
 	@NoArgsConstructor
-	public static class PetStoreResponse {
+	public static class EmployeePetStore {
+		
+		// doesn't contain the Set<Employee> employees field or the Set<Customer> customers field to avoid recursion
 		
 		private Long petStoreId;
 		private String petStoreName;
@@ -39,18 +39,15 @@ public class EmployeeData {
 		private String petStoreState;
 		private String petStoreZip;
 		private String petStorePhone;
-		private Set<Employee> employees = new HashSet<>();
 		
-		public PetStoreResponse(PetStore petStore) {
+		public EmployeePetStore(PetStore petStore) {
 			petStoreId = petStore.getPetStoreId();
 			petStoreName = petStore.getPetStoreName();
 			petStoreAddress = petStore.getPetStoreAddress();
 			petStoreCity = petStore.getPetStoreCity();
 			petStoreState = petStore.getPetStoreState();
 			petStorePhone = petStore.getPetStorePhone();
-			for (Employee employee : petStore.getEmployees()) {
-				employees.add(employee);
-			}
+			petStoreZip = petStore.getPetStoreZip();
 		}
 		
 	}

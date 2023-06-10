@@ -18,7 +18,7 @@ public class CustomerData {
 	private String customerFirstName;
 	private String customerLastName;
 	private String customerEmail;
-	private Set<PetStoreResponse> petStores = new HashSet<>();
+	private Set<CustomerPetStore> petStores = new HashSet<>();
 	
 	public CustomerData(Customer customer) {
 		customerId = customer.getCustomerId();
@@ -27,14 +27,14 @@ public class CustomerData {
 		customerEmail = customer.getCustomerEmail();
 		
 		for (PetStore petStore : customer.getPetStores()) {
-			petStores.add(new PetStoreResponse(petStore));
+			petStores.add(new CustomerPetStore(petStore));
 		}
 	}
 	
 
 	@Data
 	@NoArgsConstructor
-	public static class PetStoreResponse {
+	public static class CustomerPetStore {
 		
 		private Long petStoreId;
 		private String petStoreName;
@@ -45,7 +45,9 @@ public class CustomerData {
 		private String petStorePhone;
 		private Set<Employee> employees = new HashSet<>();
 		
-		public PetStoreResponse(PetStore petStore) {
+		// doesn't contain the Set<Customer> customers field to avoid recursion
+		
+		public CustomerPetStore(PetStore petStore) {
 			petStoreId = petStore.getPetStoreId();
 			petStoreName = petStore.getPetStoreName();
 			petStoreAddress = petStore.getPetStoreAddress();

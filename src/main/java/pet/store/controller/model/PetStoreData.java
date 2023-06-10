@@ -20,8 +20,8 @@ public class PetStoreData {
 	private String petStoreState;
 	private String petStoreZip;
 	private String petStorePhone;
-	private Set<CustomerResponse> customers = new HashSet<>();
-	private Set<EmployeeResponse> employees = new HashSet<>();
+	private Set<PetStoreCustomer> customers = new HashSet<>();
+	private Set<PetStoreEmployee> employees = new HashSet<>();
 	
 	
 	public PetStoreData(PetStore petStore) {
@@ -33,19 +33,24 @@ public class PetStoreData {
 		petStoreZip = petStore.getPetStoreZip();
 		petStorePhone = petStore.getPetStorePhone();
 		for (Customer customer : petStore.getCustomers()) {
-			customers.add(new CustomerResponse(customer));
+			customers.add(new PetStoreCustomer(customer));
+		}
+		for (Employee employee : petStore.getEmployees()) {
+			employees.add(new PetStoreEmployee(employee));
 		}
 	}
 	
 	@Data
 	@NoArgsConstructor
-	public static class CustomerResponse {
+	public static class PetStoreCustomer {
 		private Long customerId;
 		private String customerFirstName;
 		private String customerLastName;
 		private String customerEmail;
 		
-		CustomerResponse(Customer customer){
+		//does not contain the Set<PetStore> petStores field to avoid recursion.
+		
+		PetStoreCustomer(Customer customer){
 			customerId = customer.getCustomerId();
 			customerFirstName = customer.getCustomerFirstName();
 			customerLastName = customer.getCustomerLastName();
@@ -56,16 +61,16 @@ public class PetStoreData {
 	
 	@Data
 	@NoArgsConstructor
-	public static class EmployeeResponse {
-		private PetStore petStore;
+	public static class PetStoreEmployee {
 		private Long employeeId;
 		private String employeeFirstName;
 		private String employeeLastName;
 		private String employeePhone;
 		private String employeeJobTitle;
 		
-		EmployeeResponse(Employee employee){
-			petStore = employee.getPetStore();
+		//Does not contain the Pet Store field to avoid recursion
+		
+		PetStoreEmployee(Employee employee){
 			employeeId = employee.getEmployeeId();
 			employeeFirstName = employee.getEmployeeFirstName();
 			employeeLastName = employee.getEmployeeLastName();
